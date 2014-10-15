@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Les Dates en Java 8</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+        <style>
+
+            .math div, .math ul {
+                text-align: left;
+            }
+
+            .reveal .math em {
+                font-size: 125%;
+                color:#08DAFF;
+            }
+
+            span.mini {
+                font-size: .48em;
+            }
+
+            ul.dialog{
+                list-style-type: none;
+            }
+
+            ul.dialog .static {
+                text-align: left;
+                margin-right:100px;
+            }
+
+
+
+            ul.dialog .dynamic {
+                text-align: right;
+                margin-left:100px;
+            }
+
+            ul.dialog  .static img,  ul.dialog .dynamic img{
+                margin: 0;
+                padding: 0;
+                border: 0;
+                font-size: 100%;
+                font: inherit;
+                vertical-align: baseline;
+                background-color: transparent;
+                outline: none;
+            }
+
+            ul.dialog  .static img {
+
+            }
+
+
+        </style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Les date en Java 8</h1>
+                    <h2>La JSR 310</h2>
+				</section>
+
+                <section>
+                    <h2>La représentation du temps</h2>
+                    <img src="images/montre-molle.jpg" />
+                </section>
+
+                <section>
+                    <h2>UT - Temps Universel</h2>                        
+                    <ul>
+                        <li>Anciennement GMT</li>
+                        <li>Basé sur la rotation de la terre</li>
+                    </ul>
+                    <img src="images/Earth-Clock.jpg" />
+                    <aside class="notes">
+                        Mesuré par passage des étoiles à un méridien<br />
+                        La terre ralenti, la durée d'une seconde n'est donc pas constante
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>TAI - Temps Atomique International</h2>                    
+                    <ul>
+                        <li>1s = "durée de 9 192 631 770 périodes de la radiation correspondant à la transition entre les deux niveaux hyperfins de l'état fondamental de l'atome de césium 133"</li>
+                    </ul>
+                    <img src="images/atomic-clock.jpg" />
+                    <aside class="notes">
+                        Moyenne d'un ensemble d'horloge atomique
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>UTC - Temps Universel Coordonné</h2>
+                    <ul>
+                        <li>1s UTC = 1s TAI</li>
+                        <li>synchronisé sur UT</li>
+                        <li>35s d'écart entre UTC et TAI</li>
+                    </ul>                    
+                    <br/>
+                    <img src="images/turtle-clock.jpg" />
+
+                    <aside class="notes">
+                        Compromis entre TUC (français) et CUT (anglais) dans la continuité de UT1, UT2 
+                        (version du temps universel)
+                    </aside>
+                </section>
+
+                  <section>
+                    <h2>Seconde Intercalaire - Leap second</h2>
+                    <ul>
+                        <li>UTC et UT ne doivent jamais avoir plus de 0.9s d'écart</li>
+                        <li>La date d'ajout est non prévisible</li>
+                        <li class="fragment">23:59:59 -> 23:59:60 -> 00:00:00</li>
+                    </ul>                    
+                </section>
+
+                <section>
+                    <h2>Fuseau horaire - Time zone</h2>
+                    <p> UTC est le temps utilisé par le portugal ou l'angleterre</p>
+                    <p> La France métropolitaine est à UTC + 1 en hiver et UTC + 2 en été</p>
+                </section>
+
+              
+
+                <section>
+                    <h2>La norme ISO 8601</h2>
+                    <p>Spécification de  comment représenter la date et l'heure</p>
+                    <ul class="fragment">
+                        <li>Calendrier Grégorien</li>
+                        <li>Système horaire 24h</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemples</h2>
+                    <ul>
+                        <li class="fragment">1789-07-14T17:00:00+02:00</li>
+                        <li class="fragment">1789-07-14T15:00:00Z</li>
+                        <li class="fragment">2029-04-13T02:00:00,9867Z</li>
+                        <li class="fragment">2029-04-13</li>                                                          
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Fuseaux horaires</h2>
+                    <ul>
+                        <li>Représenté soit par un décalage par rapport à l'heure UTC, par ex. +03:00 ou -05:30</li>
+                        <li>Ou par Z, méridien Zero, qui vaut l'heure UTC et donc +00:00</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Complexité</h2>
+                    <p class="fragment">
+                        2012-03-05:24:00:00Z et<br />
+                        2012-03-06:00:00:00Z <br />
+                        sont le meme instant.
+                    </p>
+                    <p class="fragment">
+                        Mais  pas 
+                        2012-03-05:23:59:60Z et<br />
+                        2012-03-05:24:00:00Z
+                    </p>
+                    <p class="fragment">La norme ne fixe pas de notation avant 1582 (Calendrier Grégorien)</p>                    
+                </section>
+                
+                <section>
+                    <h2>Les durées</h2>
+                    <p>Commence par P et ensuite un chiffre et une unité, le temps étant séparé par T</p>
+                    <p>P18Y9M4DT11H9M8S vaut 18 ans 9 mois 4 jours 11h 9 minutes 8 secondes</p>
+                </section>
+
+                <section>
+                    <h2>Les calendriers</h2>
+                    <p>Sert à la représentation usuelle</p>
+                    <ul>
+                        <li>Grégorien</li>
+                        <li class="fragment">Julien avant 1582</li>
+                        <li class="fragment">Calendrier Hégirien</li>
+                        <li class="fragment">Eres japonaises</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Exemple de calendrier</h2>
+                    <ul>
+                        <li>2014-10-14 en grégorien</li>
+                        <li class="fragment">1435-12-20 en hégirien</li>
+                        <li class="fragment"> Heisei 26-10-14 en japonais</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Le temps en Java, avant Java 8</h2>
+                    <h3>Pourquoi vouloir une API en plus</h3>
+                </section>
+
+                <section>
+                    <h2>Ce qui existait déjà</h2>
+                    <ul>
+                        <li>Date</li>
+                        <li>Calendar</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Ce qui ne vas pas : le nommage</h2>
+                    <ul>
+                        <li>Date est un instant basé sur un timestamp</li>
+                        <li>Calendar est une date et une heure</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Ce qui ne vas pas : incohérence d'API</h2>
+                    <ul>
+                        <li>Date n'a aucun support de l'i18n ou du l10n</li>
+                        <li>D'ou l'ajout de Calendar, SimpleDateFormat ou encore TimeZone</li>
+                        <li>Mais SimpleDateFormat ne permet pas de formater ou parser un Calendar</li>
+                        <li>Janvier est le 0eme mois</li>
+                        <li>new Date().getYear() renvoit 114 (basé sur 1900)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Ce qui ne vas pas : thread safety</h2>
+                    <ul>
+                        <li>Date et Calendar sont mutables</li>
+                        <li>SimpleDateFormat et instancié à plusieurs centaines d'endroit dans le JDK</li>
+                        <li>Pourrait être remplacé par des instances statiques immutables</li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h2>Ce qui ne vas pas : mauvaise modélisation</h2>
+                    <p>On ne peut représenter (simplement)</p>
+                    <ul>
+                        <li>Une heure, indépendante de la TimeZone ou de la Date (08:32)</li>
+                        <li>Une Date, sans heure (2014-10-14)</li>
+                        <li>Une date, sans année (un anniversaire par exemple)</li>
+                        <li>Une durée (PT3H5M)</li>
+                    </ul>
+                
+                </section>
+
+                <section>
+                    <h2>Le temps en Java, en Java 8</h2>
+                    <h3>JSR 310</h3>
+                </section>
+
+                <section>
+                    <h2>Joda-Time</h2>
+                    <ul>
+                        <li>JSR 310 Inspiré de Joda Time</li>
+                        <li class="fragment">Mais son créateur, conscient des limites de Joda, à souhaité tout recommencer</li>
+                    </ul>
+                    
+                </section>
+
+                <section>
+                    <h2>Limite de Joda-Time</h2>
+                    <ul>
+                        <li>Représentation interne des dates avec des instants (changement d'heure)</li>
+                        <li>Toutes les dates peuvent voir leur Calendrier (Chronology) modifiée</li>
+                        <li>Accepte null pour la plupart de ses méthodes constructrices</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>la JSR 310</h2>
+                    <ul>
+                        <li>Immutable</li>
+                        <li>Instant, Date, Time Partial, Duration</li>
+                        <li>Extensible</li>
+                        <li>Calendrier Grégorien par défaut</li>
+                        <li>NullPointerException si on essaye de passer null</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>JSR 310 - Package</h2>
+                    <p> 5 packages, 39 classes + 13 enums + 4 exception + 13 interfaces</p>
+                    <ul>
+                        <li>java.time implémentations principales de représentations temporelles (LocalDate, Duration, Instant)</li>
+                        <li>java.time.chrono les calendriers non grégoriens</li>
+                        <li>java.time.format formateurs et parseurs</li>
+                        <li>java.time.temporal acces aux représentations temporelles par champs ou unités</li>
+                        <li>java.time.zone représentation des fuseaux horaires</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>java.time.Instant et java.time.Clock</h2>
+                </section>
+
+                <section>
+                    <h2>java.time.LocalDateTime</h2>
+                </section>
+
+                <section>
+                    <h2>java.time.ZonedDateTime et java.time.OffsetDateTime</h2>
+                </section>
+
+                <section>
+                    <h2>java.time.Duration et java.time.Period</h2>
+                </section>
+
+
+                <section>
+                    <h2>Partials</h2>
+                    <ul>
+                        <li>LocalDate</li>
+                        <li>YearMonth</li>
+                        <li>Year</li>
+                        <li>LocalTime</li>
+                        <li>DayOfWeek</li>
+                        <li>Month</li>
+                        <li>MonthDay</li>
+                    </ul>
+                </section>
+
+
+
+                <section>
+java.time.temporal.* 
+Afficahge localisé, et parsing
+Testing via Clock
+
+Générique et Functionnal Interface
+
+
+
++Exemple             
+                </section>
+
+                <section>
+                    <h2>Des difficultés de design</h2>
+                    La challenge autour de la méthode equals et la controverse
+(http://blog.joda.org/search/label/jsr310)                    
+                </section>
+
+                <section>
+                    <h2>Que choisir</h2>
+                    <ul>
+                        <li>J'ai Java8 -> java.time.*</li>
+                        <li>J'ai Java7 ou 6, mais j'utilise déjà JodaTime -> ne rien changer</li>
+                        <li>J'ai Java7 ou 6, et je n'utilise rien -> utilise le backport threeten (http://www.threeten.org/)</li>                        
+                        <li>Je fais du JavaScript -> moment.js</li>                        
+                    </ul>
+                </section>
+
+
+<!--
+    http://fr.slideshare.net/dcsobral/a-jsr310-date-beyond-joda-time
+
+-->                
+               
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
