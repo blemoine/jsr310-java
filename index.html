@@ -71,10 +71,29 @@
                 outline: none;
             }
 
-            ul.dialog  .static img {
-
+            .colored-date .year {
+                color:#F00;
+            }
+            .colored-date .month {
+                color:#0F0;
+            }
+            .colored-date .day {
+                color:#00F;
+            }
+            .colored-date .hour {
+                color:#FF0;
+            }
+            .colored-date .minute {
+                color:#F0F;
+            }
+            .colored-date .second {
+                color:#0FF;
+            }
+            .colored-date .timezone {
+                color:#A6A;
             }
 
+          
 
         </style>
 	</head>
@@ -125,7 +144,7 @@
                     <ul>
                         <li>1s UTC = 1s TAI</li>
                         <li>synchronisé sur UT</li>
-                        <li>35s d'écart entre UTC et TAI</li>
+                        <li>En 2014, 35s d'écart entre UTC et TAI</li>
                     </ul>                    
                     <br/>
                     <img src="images/turtle-clock.jpg" />
@@ -139,66 +158,81 @@
                   <section>
                     <h2>Seconde Intercalaire - Leap second</h2>
                     <ul>
-                        <li>UTC et UT ne doivent jamais avoir plus de 0.9s d'écart</li>
-                        <li>La date d'ajout est non prévisible</li>
-                        <li class="fragment">23:59:59 -> 23:59:60 -> 00:00:00</li>
-                    </ul>                    
+                        <li>UTC et UT ne doivent jamais avoir plus de 0.9s d'écart</li>                       
+                        
+                    </ul>
+                    <img src="images/leap-second-graph.png" class="fragment" />                   
+                    <span class="fragment">23:59:59 -> 23:59:60 -> 00:00:00</span>     
+                                   
                 </section>
 
                 <section>
                     <h2>Fuseau horaire - Time zone</h2>
-                    <p> UTC est le temps utilisé par le portugal ou l'angleterre</p>
-                    <p> La France métropolitaine est à UTC + 1 en hiver et UTC + 2 en été</p>
+                    <p> UTC est le temps utilisé en hiver par le Royaume-Uni</p>
+                    <p> France : UTC + 1 en hiver et UTC + 2 en été</p>
+                    <img src="images/timezone.png" />
+                     <aside class="notes">
+                        Volonté de normaliser avec des écarts entiers.<br />
+                        Mais Nepal: +05:45 ou +09:30 sur une partie de l'Australie<br />
+                        Toujours mieux que le
+                    </aside>
                 </section>
 
               
 
                 <section>
                     <h2>La norme ISO 8601</h2>
-                    <p>Spécification de  comment représenter la date et l'heure</p>
-                    <ul class="fragment">
+                    <p>Standardisation de la réprésentation la date et l'heure</p>
+                    <ul>
                         <li>Calendrier Grégorien</li>
                         <li>Système horaire 24h</li>
-                    </ul>
+                    </ul><br />
+                    <img src="images/iso.gif" />
                 </section>
 
                 <section>
                     <h2>Exemples</h2>
-                    <ul>
-                        <li class="fragment">1789-07-14T17:00:00+02:00</li>
-                        <li class="fragment">1789-07-14T15:00:00Z</li>
-                        <li class="fragment">2029-04-13T02:00:00,9867Z</li>
-                        <li class="fragment">2029-04-13</li>                                                          
+                    <div class="colored-date">
+                    <span class="year">année</span>-<span class="month">mois</span>-<span class="day">jour</span>T<span class="hour">heure</span>:<span class="minute">minute</span>:<span class="second">seconde</span><span class="timezone">fuseau horaire</span>
+                    </div>
+                    <ul class="colored-date">
+                        <li class="fragment"><span class="year">1789</span>-<span class="month">07</span>-<span class="day">14</span>T<span class="hour">17</span>:<span class="minute">00</span>:<span class="second">00</span><span class="timezone">+02:00</span></li>
+                        <li class="fragment"><span class="year">1789</span>-<span class="month">07</span>-<span class="day">14</span>T<span class="hour">15</span>:<span class="minute">00</span>:<span class="second">00</span><span class="timezone">Z</span></li>
+                        <li class="fragment"><span class="year">2029</span>-<span class="month">04</span>-<span class="day">13</span>T<span class="hour">02</span>:<span class="minute">00</span>:<span class="second">00,9867</span><span class="timezone">Z</span></li>
+                        <li class="fragment"><span class="year">2029</span>-<span class="month">04</span>-<span class="day">13</span></li>                                                          
                     </ul>
                 </section>
 
                 <section>
                     <h2>Fuseaux horaires</h2>
                     <ul>
-                        <li>Représenté soit par un décalage par rapport à l'heure UTC, par ex. +03:00 ou -05:30</li>
-                        <li>Ou par Z, méridien Zero, qui vaut l'heure UTC et donc +00:00</li>
+                        <li>Représenté soit par un décalage par rapport à l'heure UTC, par ex. <strong>+03:00</strong> ou <strong>-05:30</strong></li>
+                        <li>Ou par <strong>Z</strong>, méridien Zero, qui vaut l'heure UTC et donc <strong>+00:00</strong></li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>Complexité</h2>
-                    <p class="fragment">
-                        2012-03-05:24:00:00Z et<br />
-                        2012-03-06:00:00:00Z <br />
-                        sont le meme instant.
-                    </p>
-                    <p class="fragment">
-                        Mais  pas 
-                        2012-03-05:23:59:60Z et<br />
-                        2012-03-05:24:00:00Z
-                    </p>
-                    <p class="fragment">La norme ne fixe pas de notation avant 1582 (Calendrier Grégorien)</p>                    
+                    <h2>Complexité - égalité</h2>
+                
+                    <ul >
+                        <li class="fragment">2012-03-05:24:00:00Z</li>
+                        <li class="fragment">2012-03-06:00:00:00Z</li>
+                        <li class="fragment">2012-03-05:23:59:60Z</li>
+                    </ul>
+                    
+                                        
+                </section>
+
+                <section>
+                    <h2>Complexité - Calendrier Julien</h2>
+                    <p>La norme ne fixe pas de notation avant 1582</p>
+                    <img src="images/julius-caesar-finger.jpg" />
                 </section>
                 
                 <section>
-                    <h2>Les durées</h2>
+                    <h2>Les périodes</h2>
                     <p>Commence par P et ensuite un chiffre et une unité, le temps étant séparé par T</p>
-                    <p>P18Y9M4DT11H9M8S vaut 18 ans 9 mois 4 jours 11h 9 minutes 8 secondes</p>
+                    <p><strong>P18Y9M4DT11H9M8S</strong> = 18 ans 9 mois 4 jours 11h 9 minutes 8 secondes</p>
                 </section>
 
                 <section>
@@ -209,93 +243,112 @@
                         <li class="fragment">Julien avant 1582</li>
                         <li class="fragment">Calendrier Hégirien</li>
                         <li class="fragment">Eres japonaises</li>
+                        <li class="fragment">etc.</li>
                     </ul>
+
                 </section>
 
                 <section>
-                    <h2>Exemple de calendrier</h2>
+                    <h2>Exemple</h2>
                     <ul>
                         <li>2014-10-14 en grégorien</li>
                         <li class="fragment">1435-12-20 en hégirien</li>
                         <li class="fragment"> Heisei 26-10-14 en japonais</li>
-                    </ul>
+                    </ul><br />
+                    <img src="images/wombat-calendar.jpg" class="fragment" />
                 </section>
 
                 <section>
-                    <h2>Le temps en Java, avant Java 8</h2>
-                    <h3>Pourquoi vouloir une API en plus</h3>
+                    <h2>Le temps en Java...</h2>
+                    <h3>...avant Java 8</h3>
+                    <img src="images/sablier.png" />
                 </section>
 
                 <section>
-                    <h2>Ce qui existait déjà</h2>
+                    <h2>L'existant</h2>
                     <ul>
-                        <li>Date</li>
-                        <li>Calendar</li>
+                        <li class="fragment"><code>Date</code></li>
+                        <li class="fragment"><code>Calendar</code></li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>Ce qui ne vas pas : le nommage</h2>
+                    <h2>Ce qui ne vas pas</h2>
+                    <div class="fragment">
+                        <h3>Le Nommage</h3>
+                        <ul>
+                            <li><code>Date</code> est un instant basé sur un timestamp</li>
+                            <li><code>Calendar</code> est une date et une heure</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Ce qui ne vas pas</h2>
+                    <div class="fragment">
+                    <h3>incohérence d'API</h3>
                     <ul>
-                        <li>Date est un instant basé sur un timestamp</li>
-                        <li>Calendar est une date et une heure</li>
+                        <li><code>Date</code> n'a aucun support de l'i18n ou du l10n</li>
+                        <li>D'ou l'ajout de <code>Calendar</code>, <code>SimpleDateFormat</code> ou encore <code>TimeZone</code></li>
+                        <li>Mais <code>SimpleDateFormat</code> ne permet pas de formater ou parser un <code>Calendar</code></li>
+                        <li>Janvier est le mois 0</li>
+                        <li><code>new Date().getYear()</code> renvoit 114 (basé sur 1900)</li>
                     </ul>
+                </div>
                 </section>
 
                 <section>
-                    <h2>Ce qui ne vas pas : incohérence d'API</h2>
+                    <h2>Ce qui ne vas pas</h2>
+                    <div class="fragment">
+                    <h3>Thread safety</h3>
                     <ul>
-                        <li>Date n'a aucun support de l'i18n ou du l10n</li>
-                        <li>D'ou l'ajout de Calendar, SimpleDateFormat ou encore TimeZone</li>
-                        <li>Mais SimpleDateFormat ne permet pas de formater ou parser un Calendar</li>
-                        <li>Janvier est le 0eme mois</li>
-                        <li>new Date().getYear() renvoit 114 (basé sur 1900)</li>
+                        <li><code>Date</code> et <code>Calendar</code> sont mutables</li>
+                        <li><code>SimpleDateFormat</code> et instancié à plusieurs centaines d'endroit dans le JDK</li>
                     </ul>
+                    <img src="images/degaine.jpg" />
+                    </div>
                 </section>
 
                 <section>
-                    <h2>Ce qui ne vas pas : thread safety</h2>
+                    <h2>Ce qui ne vas pas</h2> 
+                    <div class="fragment">
+                    <h3>mauvaise modélisation</h3>
+                    <p>Pas de représentation de&nbsp;:</p>
                     <ul>
-                        <li>Date et Calendar sont mutables</li>
-                        <li>SimpleDateFormat et instancié à plusieurs centaines d'endroit dans le JDK</li>
-                        <li>Pourrait être remplacé par des instances statiques immutables</li>
+                        <li>Une heure, sans TimeZone, sans Date (<strong>08:32</strong>)</li>
+                        <li>Une Date, sans heure (<strong>2014-10-14</strong>)</li>
+                        <li>Une date, sans année (<strong>11 novembre</strong>)</li>
+                        <li>Une durée (</strong>PT3H5M</strong>)</li>
                     </ul>
-
+                </div>
                 </section>
 
                 <section>
-                    <h2>Ce qui ne vas pas : mauvaise modélisation</h2>
-                    <p>On ne peut représenter (simplement)</p>
-                    <ul>
-                        <li>Une heure, indépendante de la TimeZone ou de la Date (08:32)</li>
-                        <li>Une Date, sans heure (2014-10-14)</li>
-                        <li>Une date, sans année (un anniversaire par exemple)</li>
-                        <li>Une durée (PT3H5M)</li>
-                    </ul>
-                
-                </section>
-
-                <section>
-                    <h2>Le temps en Java, en Java 8</h2>
+                    <h2>Le temps en Java 8</h2>
                     <h3>JSR 310</h3>
+                    <img src="images/timecircuits.jpg" />
                 </section>
 
                 <section>
                     <h2>Joda-Time</h2>
                     <ul>
                         <li>JSR 310 Inspiré de Joda Time</li>
-                        <li class="fragment">Mais son créateur, conscient des limites de Joda, à souhaité tout recommencer</li>
+                        <li>Son créateur, conscient des limites de Joda, à souhaité tout recommencer</li>
                     </ul>
+                    <img src="images/yoda.jpg" />
                     
                 </section>
 
                 <section>
-                    <h2>Limite de Joda-Time</h2>
+                    <h2>Limites de Joda-Time</h2>
                     <ul>
-                        <li>Représentation interne des dates avec des instants (changement d'heure)</li>
+                        <li>Représentation interne des dates avec des instants </li>
                         <li>Toutes les dates peuvent voir leur Calendrier (Chronology) modifiée</li>
-                        <li>Accepte null pour la plupart de ses méthodes constructrices</li>
+                        <li>Accepte <code>null</code> pour la plupart de ses méthodes constructrices</li>
                     </ul>
+                    <aside class="notes">
+                        représentation par instant => (changement d'heure)
+                    </aside>
                 </section>
 
                 <section>
@@ -305,70 +358,198 @@
                         <li>Instant, Date, Time Partial, Duration</li>
                         <li>Extensible</li>
                         <li>Calendrier Grégorien par défaut</li>
-                        <li>NullPointerException si on essaye de passer null</li>
+                        <li><code>NullPointerException</code> si on essaye de passer <code>null</code></li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>JSR 310 - Package</h2>
+                    <h2>Packages</h2>
                     <p> 5 packages, 39 classes + 13 enums + 4 exception + 13 interfaces</p>
                     <ul>
-                        <li>java.time implémentations principales de représentations temporelles (LocalDate, Duration, Instant)</li>
-                        <li>java.time.chrono les calendriers non grégoriens</li>
-                        <li>java.time.format formateurs et parseurs</li>
-                        <li>java.time.temporal acces aux représentations temporelles par champs ou unités</li>
-                        <li>java.time.zone représentation des fuseaux horaires</li>
+                        <li><em>java.time</em> implémentations principales de représentations temporelles (LocalDate, Duration, Instant)</li>
+                        <li><em>java.time.chrono</em> les calendriers non grégoriens</li>
+                        <li><em>java.time.format</em> formateurs et parseurs</li>
+                        <li><em>java.time.temporal</em> acces aux représentations temporelles par champs ou unités</li>
+                        <li><em>java.time.zone</em> représentation des fuseaux horaires</li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>java.time.Instant et java.time.Clock</h2>
+                    <h2>java.time.Instant</h2>
+                    <ul>
+                        <li class="fragment">Point précis (à la nanoseconde) dans le temps</li>
+                        <li class="fragment">Représentation <em>machine</em> basé sur timestamp</li>                        
+                    </ul>
+                    <pre class="fragment"><code class="java">
+Instant now = Instant.now(); 
+Instant instant = Instant.ofEpochSecond(3600);
+instant.toEpochMilli(); // Timestamp
+instant.plus(1, ChronoUnit.DAYS);
+instant.isAfter(now);
+                    </code></pre>
                 </section>
+
 
                 <section>
                     <h2>java.time.LocalDateTime</h2>
+                     <ul>                        
+                        <li class="fragment">année-mois-jourTheure:minute:seconde</li>
+                        <li class="fragment"><strong>PAS DE TIMEZONE</strong></li>
+                        <li class="fragment">n'est donc pas un moment précis de la ligne de temps</li>
+                        <li class="fragment">représentation humaine</li>
+                    </ul>
+                    <pre class="fragment"><code class="java">
+LocalDateTime ldt = LocalDateTime.of(2014,11,10,8,34,56)
+ldt.atZone(ZoneOffset.UTC).toInstant() // TimeZone obligatoire 
+ldt.getMonth() // Month.NOVEMBER
+ldt.getDayOfWeek() // DayOfWeek.MONDAY
+ldt.withHour(12) // Nouvelle instance
+                    </code></pre>
+
                 </section>
 
                 <section>
-                    <h2>java.time.ZonedDateTime et java.time.OffsetDateTime</h2>
+                    <h2>java.time.ZonedDateTime</h2>
+                    <ul>
+                        <li class="fragment">année-mois-jourTheure:minute:secondeFuseau</li>
+                        <li class="fragment">mais n'est pas un moment précis de la ligne de temps...</li>
+                        <li class="fragment">à cause du changement d'heure</li>
+                        <li class="fragment">ex: le 12 janvier 2013 à 08:30:12 à Europe/Paris</li>
+                    </ul>
+                    <pre class="fragment"><code class="java">
+ZonedDateTime.of(2014,3,29,2,30,0, 0, ZoneId.of("Europe/Paris"));
+  
+                    </code></pre>
                 </section>
 
                 <section>
-                    <h2>java.time.Duration et java.time.Period</h2>
+                    <h2>java.time.OffsetDateTime</h2>
+                    <ul>
+                        <li class="fragment">année-mois-jourTheure:minute:secondeOffset</li>
+                        <li class="fragment">est donc un moment précis dans le temps</li>
+                        <li class="fragment">convertible en <code>Instant</code></li>
+                    </ul>
+                    <pre class="fragment"><code class="java">
+OffsetDateTime ldt = OffsetDateTime.of(2014,3,29,2,30,0, 0, ZoneOffset.ofHours(1))
+ldt.toInstant()                    
+                    </code></pre>
                 </section>
+                  
+
+                <section>
+                    <h2>java.time.Duration</h2>
+                    <ul>
+                        <li class="fragment">une durée <em>précise</em></li>                        
+                    </ul>
+                    <pre class="fragment"><code class="java">
+Duration duration = Duration.ofHours(2).plusMinutes(74)
+duration.toString() // PT3H14M
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>java.time.Period</h2>
+                    <ul>
+                        <li class="fragment">une période...</li>                        
+                        <li class="fragment">...dont la durée dépend de l'endroit ou elle est appliquée</li>
+                    </ul>
+                    <pre class="fragment"><code class="java">
+Period period = Period.ofMonths(2).plusDays(5)
+period.toString() // P2M5D
+OffsetDateTime.of(2013,2,4,8,0,0,0,ZoneOffset.ofHours(2)).plus(period)
+//2013-04-09T08:00+02:00
+                    </code></pre>
+                </section>              
 
 
                 <section>
                     <h2>Partials</h2>
                     <ul>
-                        <li>LocalDate</li>
-                        <li>YearMonth</li>
-                        <li>Year</li>
-                        <li>LocalTime</li>
-                        <li>DayOfWeek</li>
-                        <li>Month</li>
-                        <li>MonthDay</li>
+                        <li>LocalDate : 2014-10-23</li>
+                        <li>YearMonth : 2014-10</li>
+                        <li>Year : 2014</li>
+                        <li>LocalTime : 08:34:23</li>
+                        <li>DayOfWeek : DayOfWeek.TUESDAY</li>
+                        <li>Month : Month.JANUARY</li>
+                        <li>MonthDay : 23 septembre</li>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <h2>java.time.Clock</h2>
+                    <ul>
+                        <li class="fragment">Factory d'Instant</li>
+                        <li class="fragment">Mockable...</li>
+                        <li class="fragment">... et donc testable</li>
+                    </ul>
+                    <pre class="fragment"><code class="java">
+public class MyBean {
+    private Clock clock;  // dependency inject
+    
+    public void process(LocalDate eventDate) {
+      if (eventDate.isBefore(LocalDate.now(clock)) {
+     
+      }
+    }
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Parsing</h2>
+                    <ul>
+                        <li class="fragment">Depuis les classes elle-même, format ISO<br/> <code>LocalDate.parse("2013-03-24")</code></li>
+                        <li class="fragment">Depuis les classes elle-même, avec formatter<br/> <code>LocalDate.parse("24/03/2013", DateTimeFormatter.ofPattern("dd/MM/yyyy"))</code></li>
+                        <li class="fragment">Depuis un formateur<br/>
+<code>
+LocalDate.from(DateTimeFormatter.ofPattern("dd MM yyyy").parse("23 12 1998")) 
+DateTimeFormatter.ofPattern("dd MM yyyy").parse("23 12 1998", LocalDate::From)
+</code>
+                        </li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h2>Formattage</h2>
+                    <ul>
+                         <li class="fragment">Depuis les classes elle-même, format ISO<br/> <code>LocalDate.now().toString()</code></li>
+                        <li class="fragment">Depuis les classes elle-même, avec formatter<br/> <code>LocalDate.now()
+                            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))</code></li>
+                        <li class="fragment">Depuis un formateur<br/>
+<code>
+DateTimeFormatter.ofPattern("dd MM yyyy")
+.format(LocalDate.now())
+</code>
+                        </li>
                     </ul>
                 </section>
 
 
 
                 <section>
-java.time.temporal.* 
-Afficahge localisé, et parsing
-Testing via Clock
+                    <h2>I18N et L10N</h2>
 
-Générique et Functionnal Interface
+                </section>
 
 
+                <section>
+                    <h2>Autres Calendriers</h2>
 
-+Exemple             
                 </section>
 
                 <section>
-                    <h2>Des difficultés de design</h2>
+                    <h2>Questions existencielles</h2>
                     La challenge autour de la méthode equals et la controverse
 (http://blog.joda.org/search/label/jsr310)                    
+                </section>
+
+                <section>
+                    <h2>Exemples</h2>
+                    Que choisir dans quel cas ?
+                    
+
                 </section>
 
                 <section>
@@ -381,6 +562,10 @@ Générique et Functionnal Interface
                     </ul>
                 </section>
 
+                <section>
+                    <h2>Questions ?</h2>
+                    <img src="images/clock-class.jpeg" />
+                </section>
 
 <!--
     http://fr.slideshare.net/dcsobral/a-jsr310-date-beyond-joda-time
@@ -421,6 +606,7 @@ Générique et Functionnal Interface
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
+
 
 		</script>
 
