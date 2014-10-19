@@ -249,7 +249,7 @@
                 </section>
 
                 <section>
-                    <h2>Exemple</h2>
+                    <h2>Exemple de calendrier</h2>
                     <ul>
                         <li>2014-10-14 en grégorien</li>
                         <li class="fragment">1435-12-20 en hégirien</li>
@@ -294,7 +294,10 @@
                         <li>Janvier est le mois 0</li>
                         <li><code>new Date().getYear()</code> renvoit 114 (basé sur 1900)</li>
                     </ul>
-                </div>
+                    </div>
+                    <aside class="notes">
+                        API deprecated pour getYear etc.
+                    </aside>
                 </section>
 
                 <section>
@@ -303,7 +306,7 @@
                     <h3>Thread safety</h3>
                     <ul>
                         <li><code>Date</code> et <code>Calendar</code> sont mutables</li>
-                        <li><code>SimpleDateFormat</code> et instancié à plusieurs centaines d'endroit dans le JDK</li>
+                        <li><code>SimpleDateFormat</code> est instancié à plusieurs centaines d'endroit dans le JDK</li>
                     </ul>
                     <img src="images/degaine.jpg" />
                     </div>
@@ -318,7 +321,7 @@
                         <li>Une heure, sans TimeZone, sans Date (<strong>08:32</strong>)</li>
                         <li>Une Date, sans heure (<strong>2014-10-14</strong>)</li>
                         <li>Une date, sans année (<strong>11 novembre</strong>)</li>
-                        <li>Une durée (</strong>PT3H5M</strong>)</li>
+                        <li>Une durée (<strong>PT3H5M</strong>)</li>
                     </ul>
                 </div>
                 </section>
@@ -526,30 +529,88 @@ DateTimeFormatter.ofPattern("dd MM yyyy")
                     </ul>
                 </section>
 
-
+                <section>
+                    <h2>Builder</h2>
+                    <pre><code class="java">
+DateTimeFormatter isoDateFormatter = 
+    new DateTimeFormatterBuilder()
+                .appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+                .appendLiteral('-')
+                .appendValue(MONTH_OF_YEAR, 2)
+                .appendLiteral('-')
+                .appendValue(DAY_OF_MONTH, 2)
+                .toFormatter(ResolverStyle.STRICT, IsoChronology.INSTANCE);
+                    </code></pre>
+                </section>
 
                 <section>
                     <h2>I18N et L10N</h2>
+                    <pre><code class="java">
+LocalDate ld = LocalDate.of(2013,2,3);
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM")
 
+ld.format(formatter.withLocale(Locale.FRANCE)); //dimanche, février
+ld.format(formatter.withLocale(Locale.JAPAN)); //日曜日, 2月
+                    </code></pre>
+                    <aside class="notes">
+                        Nichiyōbi, futsuka 
+                    </aside>
                 </section>
 
 
                 <section>
                     <h2>Autres Calendriers</h2>
+                    <pre><code class="java">
+JapaneseChronology.INSTANCE.date(LocalDate.of(2013,2,3))
+// Instance de JapaneseDate
+// Japanese Heisei 25-02-03
 
+JapaneseChronology.INSTANCE.localDateTime(LocalDateTime.of(2013,2,3,8,30))
+// Instance de ChronoLocalDateTime&lt;JapaneseDate&gt;
+// Japanese Heisei 25-02-03T08:30
+
+HijrahChronology.INSTANCE.date(1433,3,22)
+// Instance de HijrahDate
+// Hijrah-umalqura AH 1433-03-22                                         
+                    </code></pre>
                 </section>
 
                 <section>
-                    <h2>Questions existencielles</h2>
-                    La challenge autour de la méthode equals et la controverse
-(http://blog.joda.org/search/label/jsr310)                    
+                    <h2>Égalité</h2>
+                    <pre><code class="java">
+OffsetDateTime dt1 = OffsetDateTime.parse("2012-11-05T06:00+01:00");
+OffsetDateTime dt2 = OffsetDateTime.parse("2012-11-05T07:00+02:00");        
+
+dt1.equals(dt2) // false
+dt1.compareTo(dt2) // -1
+dt1.isEqual(dt2) // true
+                    </code></pre>                                        
                 </section>
 
                 <section>
-                    <h2>Exemples</h2>
-                    Que choisir dans quel cas ?
-                    
+                    <h2>Quand choisir quoi&nbsp;?</h2>
+                    TODO Mettre en forme
+                    <ul>
+                        <li class="fragment">Horaires d'un train -> ZonedDateTime</li>
+                        <li class="fragment">Date de naissance -> LocalDate</li>
+                        <li class="fragment">Date de création/de moficiation -> Instant</li>
+                        <li class="fragment">Mois ou Jour de Semaine -> enum Month ou DayOfWeek</li>
+                        <li class="fragment">Une année -> Year</li>
+                        <li class="fragment">Entrée dans un agenda -> LocalDateTime</li>
+                    </ul>
+                    <aside class="notes">
+                        Entrée dans l'agenda -> si je me balade dans le monde avec mon agenda, la date est toujours local au lieu ou je suis.
+                    </aside>                    
+                </section>
 
+                <section>
+                    <h2>Groovy goodness</h2>
+                    <pre><code class="java">
+def ldt1 = LocalDateTime.of(2010,10,23,8,30)
+def ldt2 = ldt1 + Duration.ofHours(1)
+ldt2.hour //9
+ldt1 > ldt2 // false
+                    </code></pre>
                 </section>
 
                 <section>
@@ -566,12 +627,6 @@ DateTimeFormatter.ofPattern("dd MM yyyy")
                     <h2>Questions ?</h2>
                     <img src="images/clock-class.jpeg" />
                 </section>
-
-<!--
-    http://fr.slideshare.net/dcsobral/a-jsr310-date-beyond-joda-time
-
--->                
-               
             </div>
 
 		</div>
