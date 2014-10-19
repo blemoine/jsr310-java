@@ -53,8 +53,6 @@
                 margin-right:100px;
             }
 
-
-
             ul.dialog .dynamic {
                 text-align: right;
                 margin-left:100px;
@@ -215,9 +213,9 @@
                     <h2>Complexité - égalité</h2>
                 
                     <ul >
-                        <li class="fragment">2012-03-05:24:00:00Z</li>
-                        <li class="fragment">2012-03-06:00:00:00Z</li>
-                        <li class="fragment">2012-03-05:23:59:60Z</li>
+                        <li class="fragment" style="color:cyan">2012-03-05:24:00:00Z</li>
+                        <li class="fragment" style="color:cyan">2012-03-06:00:00:00Z</li>
+                        <li class="fragment" style="color:pink">2012-03-05:23:59:60Z</li>
                     </ul>
                     
                                         
@@ -225,8 +223,14 @@
 
                 <section>
                     <h2>Complexité - Calendrier Julien</h2>
-                    <p>La norme ne fixe pas de notation avant 1582</p>
-                    <img src="images/julius-caesar-finger.jpg" />
+                    <ul>
+                        <li class="fragment">La norme ne fixe pas de notation avant 1582</li>
+                        <li class="fragment">En France, 09/12/1582 est la veille du 20/12/1582</li>
+                        <li class="fragment">En Grande-Bretagne, 02/09/1752 est la veille du 14/09/1752</li>
+                        <li class="fragment">Une date n'indique un moment précis qu'associée à un calendrier</li>
+                    </ul>
+                    
+                    <img src="images/julius-caesar-finger.jpg" class="fragment"/>
                 </section>
                 
                 <section>
@@ -239,10 +243,10 @@
                     <h2>Les calendriers</h2>
                     <p>Sert à la représentation usuelle</p>
                     <ul>
-                        <li>Grégorien</li>
-                        <li class="fragment">Julien avant 1582</li>
+                        <li>Grégorien</li>                        
                         <li class="fragment">Calendrier Hégirien</li>
                         <li class="fragment">Eres japonaises</li>
+                        <li class="fragment">Julien avant 1582</li>
                         <li class="fragment">etc.</li>
                     </ul>
 
@@ -319,7 +323,7 @@
                     <p>Pas de représentation de&nbsp;:</p>
                     <ul>
                         <li>Une heure, sans TimeZone, sans Date (<strong>08:32</strong>)</li>
-                        <li>Une Date, sans heure (<strong>2014-10-14</strong>)</li>
+                        <li>Une date, sans heure (<strong>2014-10-14</strong>)</li>
                         <li>Une date, sans année (<strong>11 novembre</strong>)</li>
                         <li>Une durée (<strong>PT3H5M</strong>)</li>
                     </ul>
@@ -500,6 +504,12 @@ public class MyBean {
                 </section>
 
                 <section>
+                    TODO TemporalUnit <- ChronoUnit
+                    TODO TemporalField <- ChronoField
+                </section>
+
+
+                <section>
                     <h2>Parsing</h2>
                     <ul>
                         <li class="fragment">Depuis les classes elle-même, format ISO<br/> <code>LocalDate.parse("2013-03-24")</code></li>
@@ -586,6 +596,7 @@ dt1.compareTo(dt2) // -1
 dt1.isEqual(dt2) // true
                     </code></pre>                                        
                 </section>
+
 
                 <section>
                     <h2>Quand choisir quoi&nbsp;?</h2>
