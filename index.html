@@ -258,8 +258,8 @@
                         <li>2014-10-14 en grégorien</li>
                         <li class="fragment">1435-12-20 en hégirien</li>
                         <li class="fragment"> Heisei 26-10-14 en japonais</li>
-                    </ul><br />
-                    <img src="images/wombat-calendar.jpg" class="fragment" />
+                    </ul>
+                    
                 </section>
 
                 <section>
@@ -319,8 +319,7 @@
                 <section>
                     <h2>Ce qui ne vas pas</h2> 
                     <div class="fragment">
-                    <h3>mauvaise modélisation</h3>
-                    <p>Pas de représentation de&nbsp;:</p>
+                    <h3>Mauvaise Modélisation</h3>                    
                     <ul>
                         <li>Une heure, sans TimeZone, sans Date (<strong>08:32</strong>)</li>
                         <li>Une date, sans heure (<strong>2014-10-14</strong>)</li>
@@ -340,14 +339,14 @@
                     <h2>Joda-Time</h2>
                     <ul>
                         <li>JSR 310 Inspiré de Joda Time</li>
-                        <li>Son créateur, conscient des limites de Joda, à souhaité tout recommencer</li>
+                        <li>Son créateur, conscient des limites de Joda, a souhaité tout recommencer</li>
                     </ul>
                     <img src="images/yoda.jpg" />
                     
                 </section>
 
                 <section>
-                    <h2>Limites de Joda-Time</h2>
+                    <h2>Discussion autour de Joda-Time</h2>
                     <ul>
                         <li>Représentation interne des dates avec des instants </li>
                         <li>Toutes les dates peuvent voir leur Calendrier (Chronology) modifiée</li>
@@ -376,8 +375,8 @@
                         <li><em>java.time</em> implémentations principales de représentations temporelles (LocalDate, Duration, Instant)</li>
                         <li><em>java.time.chrono</em> les calendriers non grégoriens</li>
                         <li><em>java.time.format</em> formateurs et parseurs</li>
-                        <li><em>java.time.temporal</em> acces aux représentations temporelles par champs ou unités</li>
-                        <li><em>java.time.zone</em> représentation des fuseaux horaires</li>
+                        <li><em>java.time.temporal</em> représentations temporelles par champs ou unités</li>
+                        <li><em>java.time.zone</em> représentations des fuseaux horaires</li>
                     </ul>
                 </section>
 
@@ -401,7 +400,7 @@ instant.isAfter(now);
                     <h2>java.time.LocalDateTime</h2>
                      <ul>                        
                         <li class="fragment">année-mois-jourTheure:minute:seconde</li>
-                        <li class="fragment"><strong>PAS DE TIMEZONE</strong></li>
+                        <li class="fragment"><strong style="font-size:180%;color:red">PAS DE TIMEZONE</strong></li>
                         <li class="fragment">n'est donc pas un moment précis de la ligne de temps</li>
                         <li class="fragment">représentation humaine</li>
                     </ul>
@@ -418,26 +417,31 @@ ldt.withHour(12) // Nouvelle instance
                 <section>
                     <h2>java.time.ZonedDateTime</h2>
                     <ul>
-                        <li class="fragment">année-mois-jourTheure:minute:secondeFuseau</li>
+                        <li class="fragment">Date, heure et zone géographique</li>
                         <li class="fragment">mais n'est pas un moment précis de la ligne de temps...</li>
-                        <li class="fragment">à cause du changement d'heure</li>
-                        <li class="fragment">ex: le 12 janvier 2013 à 08:30:12 à Europe/Paris</li>
+                        <li class="fragment">à cause du changement d'heure</li>                        
                     </ul>
                     <pre class="fragment"><code class="java">
-ZonedDateTime.of(2014,3,29,2,30,0, 0, ZoneId.of("Europe/Paris"));
-  
+ZoneId paris = ZoneId.of("Europe/Paris");
+ZoneId ny = ZoneId.of("America/New_York");
+ZoneId london = ZoneId.of("Europe/London");
+
+ZonedDateTime zdt = ZonedDateTime.of(2014,3,29,2,30,0, 0, paris);  
+zdt.withZoneSameLocal(london); // 2014-03-29T02:30Z
+zdt.withZoneSameInstant(ny); // 2014-03-28T21:30-04:00
                     </code></pre>
                 </section>
 
                 <section>
                     <h2>java.time.OffsetDateTime</h2>
                     <ul>
-                        <li class="fragment">année-mois-jourTheure:minute:secondeOffset</li>
+                        <li class="fragment">Date, heure et décalage par rapport à UTC</li>
                         <li class="fragment">est donc un moment précis dans le temps</li>
                         <li class="fragment">convertible en <code>Instant</code></li>
                     </ul>
                     <pre class="fragment"><code class="java">
-OffsetDateTime ldt = OffsetDateTime.of(2014,3,29,2,30,0, 0, ZoneOffset.ofHours(1))
+ZoneOffset offset = ZoneOffset.ofHours(1)
+OffsetDateTime ldt = OffsetDateTime.of(2014,3,29,2,30,0, 0, offset)
 ldt.toInstant()                    
                     </code></pre>
                 </section>
@@ -449,8 +453,15 @@ ldt.toInstant()
                         <li class="fragment">une durée <em>précise</em></li>                        
                     </ul>
                     <pre class="fragment"><code class="java">
-Duration duration = Duration.ofHours(2).plusMinutes(74)
-duration.toString() // PT3H14M
+Duration duration = Duration.ofHours(2).plusMinutes(74);
+duration.toString(); // PT3H14M
+
+
+Instant now = Instant.now();
+Instant now2 = Instant.now().plusMillis(60002);
+Duration d2 = Duration.between(now, now2); //PT1M0.002S
+
+duration.plus(d2); // PT3H15M0.002S
                     </code></pre>
                 </section>
 
@@ -461,10 +472,14 @@ duration.toString() // PT3H14M
                         <li class="fragment">...dont la durée dépend de l'endroit ou elle est appliquée</li>
                     </ul>
                     <pre class="fragment"><code class="java">
-Period period = Period.ofMonths(2).plusDays(5)
-period.toString() // P2M5D
-OffsetDateTime.of(2013,2,4,8,0,0,0,ZoneOffset.ofHours(2)).plus(period)
-//2013-04-09T08:00+02:00
+Period period = Period.ofMonths(2).plusDays(5);
+period.toString(); // P2M5D
+
+ZoneOffset offset = ZoneOffset.ofHours(2);
+OffsetDateTime odt =  OffsetDateTime.of(2013,2,4,8,0,0,0, offset);
+odt.plus(period); //2013-04-09T08:00+02:00
+
+Period.between(LocalDate.of(1954,3,2), LocalDate.of(2013,10,5)); //P59Y7M3D
                     </code></pre>
                 </section>              
 
@@ -472,16 +487,15 @@ OffsetDateTime.of(2013,2,4,8,0,0,0,ZoneOffset.ofHours(2)).plus(period)
                 <section>
                     <h2>Partials</h2>
                     <ul>
-                        <li>LocalDate : 2014-10-23</li>
-                        <li>YearMonth : 2014-10</li>
-                        <li>Year : 2014</li>
-                        <li>LocalTime : 08:34:23</li>
-                        <li>DayOfWeek : DayOfWeek.TUESDAY</li>
-                        <li>Month : Month.JANUARY</li>
-                        <li>MonthDay : 23 septembre</li>
+                        <li><code>LocalDate</code> : 2014-10-23</li>
+                        <li><code>YearMonth</code> : 2014-10</li>
+                        <li><code>Year</code> : 2014</li>
+                        <li><code>LocalTime</code> : 08:34:23</li>
+                        <li><code>DayOfWeek</code> : DayOfWeek.TUESDAY</li>
+                        <li><code>Month</code> : Month.JANUARY</li>
+                        <li><code>MonthDay</code> : 23 septembre</li>
                     </ul>
                 </section>
-
 
                 <section>
                     <h2>java.time.Clock</h2>
@@ -489,6 +503,7 @@ OffsetDateTime.of(2013,2,4,8,0,0,0,ZoneOffset.ofHours(2)).plus(period)
                         <li class="fragment">Factory d'Instant</li>
                         <li class="fragment">Mockable...</li>
                         <li class="fragment">... et donc testable</li>
+                        <li class="fragment">remplace <code>System.currentTimeMillis()</code></li>
                     </ul>
                     <pre class="fragment"><code class="java">
 public class MyBean {
@@ -504,21 +519,41 @@ public class MyBean {
                 </section>
 
                 <section>
-                    TODO TemporalUnit <- ChronoUnit
-                    TODO TemporalField <- ChronoField
+                    <h2>ChronoUnit et ChronoField</h2>
+                    <ul>
+                        <li class="fragment">ChronoUnit représente une unité temporelle</li>
+                        <li class="fragment">ChronoField représente un champ d'une date</li>
+                    </ul>
+                    <pre class="fragment"><code class="java">
+LocalDate ld = LocalDate.of(2013,12,4)
+ld.get(ChronoField.MONTH_OF_YEAR) //12
+ld.get(ChronoField.DAY_OF_YEAR) //338
+
+ld.plus(1, ChronoUnit.DAYS) // 2013-12-05
+
+Duration d = Duration.ofHours(7).plusSeconds(23) //PT7H23S
+d.get(ChronoUnit.SECONDS) //25223
+                    </code></pre>
                 </section>
 
 
                 <section>
                     <h2>Parsing</h2>
                     <ul>
-                        <li class="fragment">Depuis les classes elle-même, format ISO<br/> <code>LocalDate.parse("2013-03-24")</code></li>
-                        <li class="fragment">Depuis les classes elle-même, avec formatter<br/> <code>LocalDate.parse("24/03/2013", DateTimeFormatter.ofPattern("dd/MM/yyyy"))</code></li>
-                        <li class="fragment">Depuis un formateur<br/>
-<code>
-LocalDate.from(DateTimeFormatter.ofPattern("dd MM yyyy").parse("23 12 1998")) 
-DateTimeFormatter.ofPattern("dd MM yyyy").parse("23 12 1998", LocalDate::From)
-</code>
+                        <li class="fragment">Depuis les classes elle-même, format ISO<pre><code>LocalDate.parse("2013-03-24")</code></pre></li>
+                        <li class="fragment">Depuis les classes elle-même, avec formatter 
+    <pre><code>import static java.time.format.DateTimeFormatter.*;
+
+DateTimeFormatter fmt = ofPattern("dd MM yyyy");
+LocalDate.parse("24/03/2013", fmt);</code></pre>
+</li>
+                        <li class="fragment">Depuis un formateur
+<pre><code>import static java.time.format.DateTimeFormatter.*;
+
+DateTimeFormatter fmt = ofPattern("dd MM yyyy");
+LocalDate.from(fmt.parse("23 12 1998"));
+fmt.parse("23 12 1998", LocalDate::From)
+</code></pre>
                         </li>
                     </ul>
 
@@ -527,20 +562,28 @@ DateTimeFormatter.ofPattern("dd MM yyyy").parse("23 12 1998", LocalDate::From)
                 <section>
                     <h2>Formattage</h2>
                     <ul>
-                         <li class="fragment">Depuis les classes elle-même, format ISO<br/> <code>LocalDate.now().toString()</code></li>
-                        <li class="fragment">Depuis les classes elle-même, avec formatter<br/> <code>LocalDate.now()
-                            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))</code></li>
-                        <li class="fragment">Depuis un formateur<br/>
-<code>
-DateTimeFormatter.ofPattern("dd MM yyyy")
-.format(LocalDate.now())
-</code>
+                         <li class="fragment">Depuis les classes elle-même, format ISO
+                            <pre><code>LocalDate.now().toString()</code></pre>
+                        </li>
+                        <li class="fragment">Depuis les classes elle-même, avec formatter 
+                            <pre><code>import static java.time.format.DateTimeFormatter.*;
+
+DateTimeFormatter fmt = ofPattern("dd MM yyyy");
+LocalDate.now().format(fmt)</code></pre>
+                        </li>
+                        <li class="fragment">Depuis un formateur
+<pre><code>import static java.time.format.DateTimeFormatter.*;
+
+DateTimeFormatter fmt = ofPattern("dd MM yyyy");
+fmt.format(LocalDate.now())
+</code></pre>
                         </li>
                     </ul>
                 </section>
 
                 <section>
-                    <h2>Builder</h2>
+                    <h2>DateTimeFormatterBuilder</h2>
+                    <p>Permet de créer un DateTimeFormatter</p>
                     <pre><code class="java">
 DateTimeFormatter isoDateFormatter = 
     new DateTimeFormatterBuilder()
@@ -554,7 +597,7 @@ DateTimeFormatter isoDateFormatter =
                 </section>
 
                 <section>
-                    <h2>I18N et L10N</h2>
+                    <h2>Internationalisation</h2>
                     <pre><code class="java">
 LocalDate ld = LocalDate.of(2013,2,3);
 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM")
@@ -600,16 +643,22 @@ dt1.isEqual(dt2) // true
 
                 <section>
                     <h2>Quand choisir quoi&nbsp;?</h2>
-                    TODO Mettre en forme
                     <ul>
-                        <li class="fragment">Horaires d'un train -> ZonedDateTime</li>
-                        <li class="fragment">Date de naissance -> LocalDate</li>
-                        <li class="fragment">Date de création/de moficiation -> Instant</li>
-                        <li class="fragment">Mois ou Jour de Semaine -> enum Month ou DayOfWeek</li>
-                        <li class="fragment">Une année -> Year</li>
-                        <li class="fragment">Entrée dans un agenda -> LocalDateTime</li>
+                        <li class="fragment">Une année</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<code>Year</code></li>
+                        <li class="fragment">Mois ou Jour de Semaine</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;enum <code>Month</code> ou <code>DayOfWeek</code></li>
+                        <li class="fragment">Date de naissance</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<code>LocalDate</code></li>
+                        <li class="fragment">Date de création/de modification</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<code>Instant</code></li>
+                        <li class="fragment">Horaires d'un train</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<code>ZonedDateTime</code></li>
+                        <li class="fragment">Entrée dans un agenda</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<code>LocalDateTime</code></li>
                     </ul>
                     <aside class="notes">
+                        Instant et pas LocalDateTime, parce que le moment de la création ne change pas en fonction de la timezone<br/>
                         Entrée dans l'agenda -> si je me balade dans le monde avec mon agenda, la date est toujours local au lieu ou je suis.
                     </aside>                    
                 </section>
@@ -625,12 +674,16 @@ ldt1 > ldt2 // false
                 </section>
 
                 <section>
-                    <h2>Que choisir</h2>
+                    <h2>Que choisir&nbsp;?</h2>
                     <ul>
-                        <li>J'ai Java8 -> java.time.*</li>
-                        <li>J'ai Java7 ou 6, mais j'utilise déjà JodaTime -> ne rien changer</li>
-                        <li>J'ai Java7 ou 6, et je n'utilise rien -> utilise le backport threeten (http://www.threeten.org/)</li>                        
-                        <li>Je fais du JavaScript -> moment.js</li>                        
+                        <li class="fragment">J'ai Java8</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<em>java.time.*</em></li>
+                        <li class="fragment">J'ai Java &lt; 8, mais j'utilise déjà JodaTime</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<em>ne rien changer</em></li>
+                        <li class="fragment">J'ai Java &lt; 8, et je n'utilise rien</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<em>le backport threeten (http://www.threeten.org/)</em></li>                        
+                        <li class="fragment">Je m'en fous, je fais du JavaScript</li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<em>moment.js</em></li>
                     </ul>
                 </section>
 
