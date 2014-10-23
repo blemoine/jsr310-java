@@ -235,7 +235,7 @@
                 
                 <section>
                     <h2>Les périodes</h2>
-                    <p>Commence par P et ensuite un chiffre et une unité, le temps étant séparé par T</p>
+                    <p>Commence par P et ensuite un chiffre et une unité, l'heure étant séparé par T</p>
                     <p><strong>P18Y9M4DT11H9M8S</strong> = 18 ans 9 mois 4 jours 11h 9 minutes 8 secondes</p>
                 </section>
 
@@ -372,7 +372,7 @@
                     <h2>Packages</h2>
                     <p> 5 packages, 39 classes + 13 enums + 4 exception + 13 interfaces</p>
                     <ul>
-                        <li><em>java.time</em> implémentations principales de représentations temporelles (LocalDate, Duration, Instant)</li>
+                        <li><em>java.time</em> implémentations principales de représentations temporelles (LocalDate, Duration, Instant, etc.)</li>
                         <li><em>java.time.chrono</em> les calendriers non grégoriens</li>
                         <li><em>java.time.format</em> formateurs et parseurs</li>
                         <li><em>java.time.temporal</em> représentations temporelles par champs ou unités</li>
@@ -384,7 +384,7 @@
                     <h2>java.time.Instant</h2>
                     <ul>
                         <li class="fragment">Point précis (à la nanoseconde) dans le temps</li>
-                        <li class="fragment">Représentation <em>machine</em> basé sur timestamp</li>                        
+                        <li class="fragment">Représentation <em>machine</em> basée sur timestamp</li>                        
                     </ul>
                     <pre class="fragment"><code class="java">
 Instant now = Instant.now(); 
@@ -545,7 +545,7 @@ d.get(ChronoUnit.SECONDS) //25223
     <pre><code>import static java.time.format.DateTimeFormatter.*;
 
 DateTimeFormatter fmt = ofPattern("dd MM yyyy");
-LocalDate.parse("24/03/2013", fmt);</code></pre>
+LocalDate.parse("24 03 2013", fmt);</code></pre>
 </li>
                         <li class="fragment">Depuis un formateur
 <pre><code>import static java.time.format.DateTimeFormatter.*;
@@ -645,7 +645,7 @@ dt1.isEqual(dt2) // true
                     <h2>Quand choisir quoi&nbsp;?</h2>
                     <ul>
                         <li class="fragment">Une année</li>
-                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<code>Year</code></li>
+                        <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;<code>Year</code> <em>et pas Integer</em></li>
                         <li class="fragment">Mois ou Jour de Semaine</li>
                         <li class="fragment">&nbsp;&nbsp;&nbsp;&nbsp;enum <code>Month</code> ou <code>DayOfWeek</code></li>
                         <li class="fragment">Date de naissance</li>
@@ -671,6 +671,14 @@ def ldt2 = ldt1 + Duration.ofHours(1)
 ldt2.hour //9
 ldt1 > ldt2 // false
                     </code></pre>
+                </section>
+
+                <section>
+                    <h2>Limites</h2>
+                    <div class="fragment">
+                    <h3>Représentation relativiste du temps</h3>
+                    <img src="images/einstein.jpg" />
+                    </div>
                 </section>
 
                 <section>
