@@ -1,12 +1,3 @@
-- Parler du fait que les types se compare par égalité
-- Moins de texte
-- Organiser mieux le plan, surtout à la fin
-- Mieux symboliser qui pense quoi dans statique vs dynamique
-- Code plus gros
-- Idris : exemple moins violent, parler de Z et S (Z), écrire une preuve
-- C'est quoi un Type Algébrique ?
-- Parler de la théorie des types intuitives
-- Exposer plus explicitement les concepts fonctionnels
-- Proposer des "versus" sur des langages ayant des systèmes de types très différents, pour exposer les avantages et inconvénients
-- Redéfinir : inférence, système turing-complet
- 
+- Parler de la compatibilité avec les FWK
+- Support de la leap second en Java
+
