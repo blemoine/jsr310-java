@@ -103,7 +103,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Les date en Java 8</h1>
+					<h1>Les dates en Java 8</h1>
                     <h2>La JSR 310</h2>
 				</section>
 
@@ -156,8 +156,7 @@
                   <section>
                     <h2>Seconde Intercalaire - Leap second</h2>
                     <ul>
-                        <li>UTC et UT ne doivent jamais avoir plus de 0.9s d'écart</li>                       
-                        
+                        <li>UTC et UT ne doivent jamais avoir plus de 0.9s d'écart</li>
                     </ul>
                     <img src="images/leap-second-graph.png" class="fragment" />                   
                     <span class="fragment">23:59:59 -> 23:59:60 -> 00:00:00</span>     
@@ -217,8 +216,7 @@
                         <li class="fragment" style="color:cyan">2012-03-06:00:00:00Z</li>
                         <li class="fragment" style="color:pink">2012-03-05:23:59:60Z</li>
                     </ul>
-                    
-                                        
+                        
                 </section>
 
                 <section>
@@ -261,7 +259,7 @@
                     </ul>
                     
                 </section>
-
+<!--
                 <section>
                     <h2>Le temps en Java...</h2>
                     <h3>...avant Java 8</h3>
@@ -328,13 +326,13 @@
                     </ul>
                 </div>
                 </section>
-
+-->
                 <section>
                     <h2>Le temps en Java 8</h2>
                     <h3>JSR 310</h3>
                     <img src="images/timecircuits.jpg" />
                 </section>
-
+<!--
                 <section>
                     <h2>Joda-Time</h2>
                     <ul>
@@ -356,7 +354,7 @@
                         représentation par instant => (changement d'heure)
                     </aside>
                 </section>
-
+-->
                 <section>
                     <h2>la JSR 310</h2>
                     <ul>
@@ -517,7 +515,7 @@ public class MyBean {
 }
                     </code></pre>
                 </section>
-
+<!--
                 <section>
                     <h2>ChronoUnit et ChronoField</h2>
                     <ul>
@@ -535,7 +533,7 @@ Duration d = Duration.ofHours(7).plusSeconds(23) //PT7H23S
 d.get(ChronoUnit.SECONDS) //25223
                     </code></pre>
                 </section>
-
+-->
 
                 <section>
                     <h2>Parsing</h2>
@@ -580,7 +578,7 @@ fmt.format(LocalDate.now())
                         </li>
                     </ul>
                 </section>
-
+<!--
                 <section>
                     <h2>DateTimeFormatterBuilder</h2>
                     <p>Permet de créer un DateTimeFormatter</p>
@@ -595,7 +593,7 @@ DateTimeFormatter isoDateFormatter =
                 .toFormatter(ResolverStyle.STRICT, IsoChronology.INSTANCE);
                     </code></pre>
                 </section>
-
+-->
                 <section>
                     <h2>Internationalisation</h2>
                     <pre><code class="java">
@@ -610,7 +608,7 @@ ld.format(formatter.withLocale(Locale.JAPAN)); //日曜日, 2月
                     </aside>
                 </section>
 
-
+<!--
                 <section>
                     <h2>Autres Calendriers</h2>
                     <pre><code class="java">
@@ -627,7 +625,7 @@ HijrahChronology.INSTANCE.date(1433,3,22)
 // Hijrah-umalqura AH 1433-03-22                                         
                     </code></pre>
                 </section>
-
+-->
                 <section>
                     <h2>Égalité</h2>
                     <pre><code class="java">
@@ -662,7 +660,7 @@ dt1.isEqual(dt2) // true
                         Entrée dans l'agenda -> si je me balade dans le monde avec mon agenda, la date est toujours local au lieu ou je suis.
                     </aside>                    
                 </section>
-
+<!--
                 <section>
                     <h2>Groovy goodness</h2>
                     <pre><code class="java">
@@ -672,7 +670,7 @@ ldt2.hour //9
 ldt1 > ldt2 // false
                     </code></pre>
                 </section>
-
+-->
                 <section>
                     <h2>Limites</h2>
                     <div class="fragment">
